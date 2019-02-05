@@ -19,3 +19,6 @@ print('...........')
 print(a_to_b( pz, move(move(move(pz, 0),2),3)   ))
 
 
+print('xxxxxx...........')
+print(next_states(pz))
+

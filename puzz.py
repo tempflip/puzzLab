@@ -49,12 +49,18 @@ def move(puzz_, dir, which_el=0):
 	return tuple(puzz)
 
 def good_move(puzz_, dir, which_el=0):
-
 	try:
 		next_state = move(puzz_, dir, which_el)
 	except WrongMove:
 		return False
 	return True
+
+def next_states(puzz):
+	states = []
+	for mv in range(4):
+		if not good_move(puzz, mv) : continue
+		states.append(move(puzz, mv))
+	return states
 
 def a_to_b(state_a, state_b):
 	for mv in range(4):
