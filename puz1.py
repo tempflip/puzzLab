@@ -14,3 +14,8 @@ print(a_to_b(states[5], states[6]))
 print(a_to_b(states[5], states[5]))
 
 
+print('...........')
+
+print(a_to_b( pz, move(move(move(pz, 0),2),3)   ))
+
+
