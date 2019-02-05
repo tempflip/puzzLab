@@ -10,7 +10,7 @@ def korrekt(w=3):
 	x[w-1][w-1] = 0
 	return x
 
-def where_is_element(puzz, el):
+def where_is_element(puzz, el=0):
 	for i in range(len(puzz)):
 		if el in puzz[i]:
 			for j in range(len(puzz[i])):
@@ -18,10 +18,12 @@ def where_is_element(puzz, el):
 					return (i, j )
 
 
-# def move(where):
-# 	if (where == 0):
+def move(puzz, where, which_el=0):
+	
+	if (where == 0): # up
+		puss
 
-# 	else if 
+	
 
 puzz = korrekt(3)
-print(where_is_element(puzz, 0))
+print(where_is_element(puzz))
