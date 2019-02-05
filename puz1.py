@@ -1,44 +1,74 @@
 #!/python
+import math
+import random
 
-def korrekt(w=3):
-	x = []
-	for i in range(w):
-		y = []
-		for j in range(w):
-			y.append(i*w + j + 1)
-		x.append(y)
-	x[w-1][w-1] = 0
-	return x
+class WrongMove(Exception):
+    pass
+
+def korrekt(size=3):
+	x = [i for i in range(1, size**2)]
+	x.append(0)
+	return tuple(x)
 
 def print_nice(puzz):
-	for i in range(len(puzz)):
-		print(puzz[i])
-	print('.............................')
+	size = int(math.sqrt(len(puzz)))
+	for i in range(size) :
+		print(puzz[size * i : size * i + size   ])
+		pass
+	print('...')
+		
 
+def move(puzz_, dir, which_el=0):
+	puzz = list(puzz_)
+	size = int(math.sqrt(len(puzz)))
 
-def where_is_element(puzz, el=0):
-	for i in range(len(puzz)):
-		if el in puzz[i]:
-			for j in range(len(puzz[i])):
-				if (el == puzz[i][j]):
-					return (i, j )
-
-
-def move(puzz, dir, which_el=0):
+	ind = puzz.index(which_el)
 	
-	if (dir == 0): # up
-		pos = where_is_element(puzz, which_el) # the 0
-		buff = puzz[pos[0]-1][pos[1]]
-		puzz[pos[0]-1][pos[1]] = puzz[pos[0]][pos[1]]
-		puzz[pos[0]][pos[1]] = buff
+	if (dir == 0): # left
+		if (ind % size == 0) : raise(WrongMove("Cant move to left"))
+		buff = puzz[ind-1]
+		puzz[ind-1] = puzz[ind]
+		puzz[ind] = buff
 
+	elif (dir == 1): # right
+		if (ind % size == (size-1)) : raise(WrongMove("Cant move to right"))	
+		buff = puzz[ind+1]
+		puzz[ind+1] = puzz[ind]
+		puzz[ind] = buff
+	elif (dir == 2): # up
+		if (ind < size) : raise(WrongMove("Cant move to up"))	
+		buff = puzz[ind-3]
+		puzz[ind-3] = puzz[ind]
+		puzz[ind] = buff
+	elif (dir == 3): # down
+		if (ind >= len(puzz)-size) : raise(WrongMove("Cant move to down"))	
+		buff = puzz[ind+3]
+		puzz[ind+3] = puzz[ind]
+		puzz[ind] = buff
+	else:
+		raise(WrongMove("Dont know what to do"))	
 
-
-	return puzz
+	return tuple(puzz)
 	
+def shuffle(puzz_, steps=5):
+	states = [puzz_]
+	for i in range(steps):
+		success = False
+		while not success:
+			try:
+				next_state = move(states[-1], random.randint(0,3))
+				states.append(next_state)
+				success = True
+			except WrongMove:
+				print('xxx')
+				pass
+	return states 
+
 
 puzz = korrekt(3)
-print_nice(puzz)
 
-puzz = move(puzz, 0, 3)
-print_nice(puzz)
+for state in shuffle(puzz):
+	print(state)
+	print_nice(state)
+
+
