@@ -24,7 +24,7 @@ for state in to_go:
 	for next_state in next_states(state):
 		if next_state in seen : continue
 		to_go.append(next_state)
-		pass
+
 	i+= 1
 	if i % 100 == 0 : print (i)
 

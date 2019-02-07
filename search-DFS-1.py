@@ -25,9 +25,8 @@ while True:
 	for next_state in next_states(state):
 		if next_state in seen : continue
 		to_go.append(next_state)
-		pass
-	i+= 1
 
+	i+= 1
 	if i % 100 == 0 : print (i)
 
 total_time = (time.time() - start_time) * 1000 * 1000
