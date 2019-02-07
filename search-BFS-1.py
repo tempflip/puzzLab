@@ -3,9 +3,9 @@ import time
 ###### depth-first
 
 goal_pos = korrekt(3)
-states = shuffle(goal_pos, steps=5)
+states = shuffle(goal_pos, steps=50)
 start_pos = states[-1]
-print (states)
+# print (states)
 
 print_nice(start_pos)
 
@@ -14,8 +14,7 @@ seen = []
 
 start_time = time.time()
 i = 0
-while True:
-	state = to_go.pop()
+for state in to_go:
 	seen.append(state)
  
 	if (state == goal_pos):
@@ -27,7 +26,6 @@ while True:
 		to_go.append(next_state)
 		pass
 	i+= 1
-
 	if i % 100 == 0 : print (i)
 
 total_time = (time.time() - start_time) * 1000 * 1000
