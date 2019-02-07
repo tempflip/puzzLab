@@ -82,3 +82,4 @@ def shuffle(puzz_, steps=5):
 				pass
 	return states 
 
+random.seed()
