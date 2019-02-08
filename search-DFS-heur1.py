@@ -2,10 +2,17 @@ from puzz import *
 import time
 ###### depth-first
 
+def heur(correct, state_b):
+
+	diff_tuple = tuple([a-b != 0 for a, b in zip(correct, state_b)])
+	return sum(diff_tuple)
+
+
+
 goal_pos = korrekt(3)
-states = shuffle(goal_pos, steps=5)
+states = shuffle(goal_pos, steps=9999)
 start_pos = states[-1]
-#print (states)
+
 
 print_nice(start_pos)
 
@@ -22,7 +29,12 @@ while True:
 		print('WOOOOOO HOOOO')
 		break
 
-	for next_state in next_states(state):
+	next_states_with_weights = sorted([(state, heur(goal_pos, state)) 
+							for state in next_states(state)
+						], key = lambda x: x[1], reverse = True)
+	next_sts = [state for state, weight in next_states_with_weights]
+
+	for next_state in next_sts:
 		if next_state in seen : continue
 		to_go.append(next_state)
 
