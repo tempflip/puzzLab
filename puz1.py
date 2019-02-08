@@ -1,6 +1,16 @@
 #!/python
 from puzz import *
 
+pz = korrekt(4)
+
+print_nice(pz)
+
+print_nice(move(move(move(pz,2),0),3))
+
+
+exit()
+
+
 pz = korrekt(3)
 
 states = shuffle(pz, steps=7)

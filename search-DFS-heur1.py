@@ -10,9 +10,8 @@ def heur(correct, state_b):
 
 
 goal_pos = korrekt(3)
-states = shuffle(goal_pos, steps=9999)
+states = shuffle(goal_pos, steps=60)
 start_pos = states[-1]
-
 
 print_nice(start_pos)
 
@@ -33,6 +32,9 @@ while True:
 							for state in next_states(state)
 						], key = lambda x: x[1], reverse = True)
 	next_sts = [state for state, weight in next_states_with_weights]
+
+	# print (state)
+	# print (next_states_with_weights)
 
 	for next_state in next_sts:
 		if next_state in seen : continue

@@ -35,13 +35,13 @@ def move(puzz_, dir, which_el=0):
 		puzz[ind] = buff
 	elif (dir == 2): # up
 		if (ind < size) : raise(WrongMove("Cant move to up"))	
-		buff = puzz[ind-3]
-		puzz[ind-3] = puzz[ind]
+		buff = puzz[ind-size]
+		puzz[ind-size] = puzz[ind]
 		puzz[ind] = buff
 	elif (dir == 3): # down
 		if (ind >= len(puzz)-size) : raise(WrongMove("Cant move to down"))	
-		buff = puzz[ind+3]
-		puzz[ind+3] = puzz[ind]
+		buff = puzz[ind+size]
+		puzz[ind+size] = puzz[ind]
 		puzz[ind] = buff
 	else:
 		raise(WrongMove("Dont know what to do"))	
