@@ -2,7 +2,7 @@ from puzz import *
 import time
 ###### depth-first
 
-def heur(correct, state_b): # return the diff between 2 states
+def heur_simple(correct, state_b): # return the diff between 2 states
 
 	diff_tuple = tuple([a-b != 0 for a, b in zip(correct, state_b)])
 	return sum(diff_tuple)
@@ -23,13 +23,13 @@ goal_pos = korrekt(3)
 
 ##### overwrite the start pos!
 #### this is the task
-SIZE = 4
+SIZE = 3
 
-start_pos = (1, 2, 4, 7, 5, 6, 3, 0, 10, 13, 11, 8, 9, 14, 15, 12)
+# start_pos = (1, 2, 4, 7, 5, 6, 3, 0, 10, 13, 11, 8, 9, 14, 15, 12)
 ## 
 # start_pos = (0, 1, 5, 4, 3, 2, 7, 8, 6) #10
-# start_pos = (2, 7, 3, 1, 0, 6, 5, 4, 8) #20
-start_pos = (1, 2, 3, 5, 0, 8, 4, 6, 7) #50
+start_pos = (2, 7, 3, 1, 0, 6, 5, 4, 8) #20
+# start_pos = (1, 2, 3, 5, 0, 8, 4, 6, 7) #50
 
 print_nice(start_pos)
 
@@ -41,6 +41,8 @@ start_time = time.time()
 i = 0
 
 my_heur = heur_manhattan
+# my_heur = heur_simple
+
 while True:
 	state = to_go.pop()
 	print ('###', state, my_heur(goal_pos, state))
