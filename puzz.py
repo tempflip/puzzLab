@@ -82,4 +82,16 @@ def shuffle(puzz_, steps=5):
 				pass
 	return states 
 
+def lin_to_2d(a, size=3):
+	x = a % size
+	y = math.floor(a / size)
+	return (x,y)
+
+def manhattan_dist_x_y(a, b): # input from lin_to_2d, i.e 2 (x,y) tuples
+	return tuple([abs(a-b) for a,b in zip(a,b)])
+
+def manhattan_cost(a, b, size=3): # manhatten cost between 2 positions on the grid
+	dist_x, dist_y = manhattan_dist_x_y(lin_to_2d(a, size), lin_to_2d(b, size))
+	return dist_x + dist_y
+
 random.seed()

@@ -7,6 +7,7 @@ states = shuffle(goal_pos, steps=50)
 start_pos = states[-1]
 # print (states)
 
+
 print_nice(start_pos)
 
 to_go = [start_pos]
