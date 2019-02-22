@@ -3,7 +3,7 @@ import time
 import cProfile
 from heapq import *
 
-SIZE = 4
+SIZE = 5
 MANHATTAN_MAP = {}
 # import heapq
 ###### depth-first
@@ -53,8 +53,8 @@ def main():
 	#### this is the task
 
 
-	start_pos = (1, 2, 4, 7, 5, 6, 3, 0, 10, 13, 11, 8, 9, 14, 15, 12)
-	# start_pos = shuffle(korrekt(SIZE), steps = 1000)[-1]
+	# start_pos = (1, 2, 4, 7, 5, 6, 3, 0, 10, 13, 11, 8, 9, 14, 15, 12)
+	start_pos = shuffle(korrekt(SIZE), steps = 100)[-1]
 	## 
 	# start_pos = (0, 1, 5, 4, 3, 2, 7, 8, 6) #10
 	# start_pos = (2, 7, 3, 1, 0, 6, 5, 4, 8) #20
