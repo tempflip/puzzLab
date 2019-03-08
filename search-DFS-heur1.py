@@ -3,7 +3,7 @@ import time
 import cProfile
 from heapq import *
 
-SIZE = 5
+SIZE = 4
 MANHATTAN_MAP = {}
 # import heapq
 ###### depth-first
@@ -46,15 +46,17 @@ def main():
 			MANHATTAN_MAP[(a,b)] = manhattan_cost(a, b, SIZE)
 
 	goal_pos = korrekt(SIZE)
-	# states = shuffle(goal_pos, steps=1000)
-	# start_pos = states[-1]
+	states = shuffle(goal_pos, steps=1000)
+	start_pos = states[-1]
 
 	##### overwrite the start pos!
 	#### this is the task
 
 
-	# start_pos = (1, 2, 4, 7, 5, 6, 3, 0, 10, 13, 11, 8, 9, 14, 15, 12)
-	start_pos = shuffle(korrekt(SIZE), steps = 100)[-1]
+	# start_pos_4_4 = (1, 2, 4, 7, 5, 6, 3, 0, 10, 13, 11, 8, 9, 14, 15, 12)
+	# start_pos_6_6__1 = (21, 31, 25, 7, 28, 16, 26, 27, 17, 4, 30, 32, 35, 14, 6, 8, 23, 0, 34, 24, 1, 29, 22, 18, 19, 12, 5, 9, 20, 10, 11, 33, 3, 15, 2, 13)
+	# start_pos = start_pos_6_6__1
+	# start_pos = shuffle(korrekt(SIZE), steps = 1000)[-1]
 	## 
 	# start_pos = (0, 1, 5, 4, 3, 2, 7, 8, 6) #10
 	# start_pos = (2, 7, 3, 1, 0, 6, 5, 4, 8) #20
@@ -87,7 +89,7 @@ def main():
 
 		# state = to_go.pop()
 		(sc, state) = heappop(score_heap)
-		print('score', sc)
+		# print('score', sc)
 		# print (all_scores(score_heap))
 		seen.add(state)
 	 
@@ -126,9 +128,9 @@ def main():
 
 	 	# some output
 		i+= 1
-		if i % 100 == 0 : print (i)
+		if i % 1000 == 0 : print (i, sc)
 
-		# if i > 10 : exit()
+		# if i > 10000 : exit()
 	total_time = (time.time() - start_time) * 1000 * 1000
 
 	### get the route
