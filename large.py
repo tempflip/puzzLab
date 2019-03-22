@@ -3,22 +3,28 @@ import time
 import cProfile
 from heapq import *
 
-SIZE_ = 4
 MANHATTAN_MAP = {}
-# import heapq
-###### depth-first
 
-def heur_manhattan(goal, b, interested):
+def heur_manhattan(goal, b):
 	score = 0
 	for item in b:
+		if goal.count(item) == 0 : continue
+
 		b_pos = b.index(item)
 		goal_pos = goal.index(item)
-		if interested[goal_pos] == 0 : continue
 
 		### dont calculate, just use the map
 		# score += manhattan_cost(b_pos, goal_pos, SIZE)
 		score += MANHATTAN_MAP[(b_pos, goal_pos)]
 	return score
+
+def is_it_the_goal(state, goal_pos):
+	match = True
+	for i, e in enumerate(goal_pos):
+		if goal_pos[i] == -1 : continue
+		if e == state[i] : continue
+		match = False
+	return match
 
 def route_to(start, goal, parent_map): # calculates the route. Start is the END, so it has to have a parent in the map
 	path = [start]
@@ -28,60 +34,59 @@ def route_to(start, goal, parent_map): # calculates the route. Start is the END,
 		path.append(par)
 	return path
 
-# def all_scores(h):
-# 	sc = []
-# 	for el in h:
-# 		sc.append(el[0])
-# 	return sc
-
 def make_manhattan_map(SIZE):
 	for a in range(SIZE**2):
 		for b in range(SIZE**2):
 			MANHATTAN_MAP[(a,b)] = manhattan_cost(a, b, SIZE)
 
-def is_it_the_goal(state, goal_pos, interested):
-	match = True
-	for i, e in enumerate(goal_pos):
-		if interested[i] == 0 : continue
-		if e == state[i] : continue
-		match = False
-	return match
+def make_window(puzzle, x, y, window_size):
+	pz = []
+	puzzle_size = int(math.sqrt(len(puzzle)))
+	for i in range(window_size):
+		pz += puzzle[    (i+y) * puzzle_size + x : (i+y) * puzzle_size + x + window_size]
+	return tuple(pz)
+
+def fix_goal_with_empties(st_p, gl_p_):
+	gl_p = list(gl_p_)
+	for i in range(len(gl_p)):
+		if st_p.count(gl_p[i]) == 0:
+			gl_p[i] = -1
+	return tuple(gl_p)
 
 def main():
+	SIZE_ = 4	
 
 	goal_pos = korrekt(SIZE_)
+	start_pos = (1, 3, 4, 2, 14, 15, 6, 0, 5, 12, 9, 11, 8, 13, 10, 7)
+
+	# goal_pos = korrekt(SIZE_)
 	# states = shuffle(goal_pos, steps=1000)
 	# start_pos = states[-1]
 
-	##### overwrite the start pos!
-	#### this is the task
-	start_pos = (1, 9, 8, 7, 14, 15, 6, 0, 5, 12, 3, 11, 4, 13, 10, 2)
-	start_pos = (1, 3, 4, 2, 14, 15, 6, 0, 5, 12, 9, 11, 8, 13, 10, 7)
-	# start_pos2 = (2, 1, 7, 8, 14, 15, 6, 0, 5, 12, 3, 11, 4, 13, 10, 9)
-
-	# interested =    (1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0)
-	interested =    (1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-	# interested =    (1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1)
-	# interested =    (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-	# interested =    (1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)	
-	# interested =    (1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0)	
-
-	# make_manhattan_map(SIZE_)
-	# x = heur_manhattan(start_pos, start_pos2, interested)
-	# print(x)
-	# exit()
 
 	print_nice(start_pos)
-	(path) = find(start_pos, goal_pos, SIZE_, interested)
+
+	window_size = 3
+	st_p = make_window(start_pos, 1, 0, window_size)
+	gl_p = make_window(goal_pos, 1, 0, window_size)
+
+	print_nice(st_p)
+	print_nice(gl_p)
+
+	gl_p = fix_goal_with_empties(st_p, gl_p)
+
+	print_nice(gl_p)
+
+	(path) = find(st_p, gl_p)
 
 	print ('Number of states to the solution', len(path))
 
 	print_nice(path[0])
 
 
-def find(start_pos, goal_pos, SIZE, interested):
+def find(start_pos, goal_pos):
 	# make up the manhatten map
-	make_manhattan_map(SIZE)
+	make_manhattan_map(int(math.sqrt(len(start_pos)))) # -> size of the puzzle
 
 	found_pos = None
 
@@ -102,7 +107,7 @@ def find(start_pos, goal_pos, SIZE, interested):
 		seen.add(state)
 	 
 	 	#### this is the goal
-		if (is_it_the_goal(state, goal_pos, interested)):
+		if (is_it_the_goal(state, goal_pos)):
 			found_pos = state
 			print('WOOOOOO HOOOO')
 			break
@@ -110,7 +115,7 @@ def find(start_pos, goal_pos, SIZE, interested):
 		#### saving the scores for A*
 		for next_state in next_states(state):
 			if next_state in seen : continue
-			heappush(score_heap, (my_heur(goal_pos, next_state, interested), next_state))
+			heappush(score_heap, (my_heur(goal_pos, next_state), next_state))
 			parent_map[next_state] = state # saving the parent, so we can get the route when found the right way
 
 		i+= 1
