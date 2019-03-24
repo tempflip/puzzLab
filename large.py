@@ -46,6 +46,7 @@ def make_window(puzzle, x, y, window_size):
 		pz += puzzle[    (i+y) * puzzle_size + x : (i+y) * puzzle_size + x + window_size]
 	return tuple(pz)
 
+
 def fix_goal_with_empties(st_p, gl_p_):
 	gl_p = list(gl_p_)
 	for i in range(len(gl_p)):
@@ -54,14 +55,14 @@ def fix_goal_with_empties(st_p, gl_p_):
 	return tuple(gl_p)
 
 def main():
-	SIZE_ = 4	
-
-	goal_pos = korrekt(SIZE_)
-	start_pos = (1, 3, 4, 2, 14, 15, 6, 0, 5, 12, 9, 11, 8, 13, 10, 7)
+	SIZE_ = 4
 
 	# goal_pos = korrekt(SIZE_)
-	# states = shuffle(goal_pos, steps=1000)
-	# start_pos = states[-1]
+	# start_pos = (1, 3, 4, 2, 14, 15, 6, 0, 5, 12, 9, 11, 8, 13, 10, 7)
+
+	goal_pos = korrekt(SIZE_)
+	states = shuffle(goal_pos, steps=1000)
+	start_pos = states[-1]
 
 
 	print_nice(start_pos)
